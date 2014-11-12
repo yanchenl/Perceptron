@@ -20,7 +20,6 @@ public class Perceptron {
     static double RATE = 0.1;
 
     public static void main(String args[]) {
-        
         //create GUI to let user give parameter files
         GUI gui = new GUI();
         String inputFile1 = gui.getInput1();
