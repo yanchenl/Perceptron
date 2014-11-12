@@ -20,7 +20,9 @@ public class Perceptron {
     static double RATE = 0.1;
 
     public static void main(String args[]) {
-        //create GUI to let user give parameter files
+        
+        int step, globalError, error, predict;
+        //create GUI to let user set input
         GUI gui = new GUI();
         String inputFile1 = gui.getInput1();
         
@@ -34,12 +36,12 @@ public class Perceptron {
         }
         System.out.println("Begin to run");
         
-        double[][] x = new double[TRAIN_INSTANCE][FEATURE + 1];
-        double[][] y = new double[TEST_INSTANCE][FEATURE + 1];
-        int[] actual = new int[TRAIN_INSTANCE];
+        double[][] x = new double[TRAIN_INSTANCE][FEATURE + 1];  //x store the training data
+        double[][] y = new double[TEST_INSTANCE][FEATURE + 1];   //y store the testing data
+        int[] actual = new int[TRAIN_INSTANCE+TEST_INSTANCE];    //actual store the class
 
         // read the file
-        ArrayList<String> dataList = getFile("tic-tac-toe.data");
+        ArrayList<String> dataList = getFile(inputFile1);
         int dataSize = dataList.size();
         String data[][] = new String[dataSize][10];
 
@@ -78,7 +80,6 @@ public class Perceptron {
         b = randNum(0, 1);
 
         //update weights and bias according to the predict result
-        int step, globalError, error, predict;
         step = 0;
         do {
             step++;
@@ -90,7 +91,7 @@ public class Perceptron {
                     w[j] += RATE * error * x[i][j];
                 }
                 b += RATE * error;
-                globalError += (error * error);
+                globalError += error * error;
             }
         } while (globalError != 0 && step <= MAX_STEP);
 
@@ -110,7 +111,7 @@ public class Perceptron {
         //do the test
         for (int i = 0; i < TEST_INSTANCE; i++) {
             predict = classify(THRESHOLD, w, y[i], b);
-            System.out.println("y" + (i+1) + " Predict: " + predict + " Actual: " + actual[i]);
+            System.out.println("y" + (i+1) + " Predict: " + predict + " Actual: " + actual[i+TRAIN_INSTANCE]);
         }
         
         //create the GUI output
@@ -121,12 +122,14 @@ public class Perceptron {
             info[j][0] = j+1;
             info[j][1] = w[j];
         }
+        info[FEATURE][0] = "bias";
+        info[FEATURE][1] = b;
         
         //JTable for display
         JTable table = new JTable(info, titles);
         JScrollPane scr = new JScrollPane(table);
         frame.add(scr);
-        frame.setSize(400, 220);
+        frame.setSize(400, 230);
         frame.setVisible(true);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent arg0) {
@@ -135,7 +138,7 @@ public class Perceptron {
         });
     }
 
-    //func classify is for the calassification of the dataset
+    //func classify is for the classification of the dataset
     private static int classify(int threshold, double[] w, double[] xi, double b) {
         double pro = b;
         for (int j = 0; j < FEATURE; j++) {
