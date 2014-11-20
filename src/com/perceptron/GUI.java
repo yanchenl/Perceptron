@@ -15,22 +15,28 @@ public class GUI extends JFrame {
     private JButton input1 = new JButton("Select");
     private JButton submit = new JButton("Submit");
     private JLabel inLabel1 = new JLabel("Data:");
+//    private JLabel inLabel2 = new JLabel("Precision:");
     InMonitor1 inMonitor1 = new InMonitor1();
     SubmitMonitor submitMonitor = new SubmitMonitor();
     TextMonitor textMonitor = new TextMonitor();
     private JTextField data1 = new JTextField(10);
+//    private JTextField data2 = new JTextField(10);
     String inputFile1;
 
     public GUI() {
         this.frame.setLayout(null);
-        this.frame.setSize(600, 150);
+        this.frame.setSize(600, 200);
         this.inLabel1.setBounds(30, 25, 80, 20);
+//        this.inLabel2.setBounds(30, 55, 80, 20);
         this.input1.setBounds(450, 25, 80, 20);
-        this.submit.setBounds(450, 70, 80, 20);
+        this.submit.setBounds(450, 90, 80, 20);
         this.data1.setBounds(100, 25, 300, 20);
+//        this.data2.setBounds(100, 55, 300, 20);
         this.frame.add(inLabel1);
+//        this.frame.add(inLabel2);
         this.frame.add(input1);
         this.frame.add(data1);
+//        this.frame.add(data2);
         this.frame.add(submit);
         this.frame.setVisible(true);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,7 +53,7 @@ public class GUI extends JFrame {
             fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             fc.showDialog(new JLabel(), "Select Train Data");
             File file = fc.getSelectedFile();
-            //System.out.println(file.getAbsolutePath());
+            // System.out.println(file.getAbsolutePath());
             inputFile1 = file.getAbsolutePath();
             data1.setText(inputFile1);
         }
@@ -56,8 +62,8 @@ public class GUI extends JFrame {
     public class SubmitMonitor implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             inputFile1 = getInput1();
-            System.out.println(inputFile1);
-            //begin to run the following code
+            // System.out.println(inputFile1);
+            // begin to run the following code
         }
     }
 
@@ -71,11 +77,11 @@ public class GUI extends JFrame {
     public String getInput1() {
         return inputFile1;
     }
-
+    
 
     public static void main(String[] args) throws InterruptedException {
         GUI gui = new GUI();
-        Thread.sleep(10000);
+        Thread.sleep(100000);
         String inputFile1 = gui.getInput1();
         System.out.println(inputFile1);
     }
